@@ -1,31 +1,83 @@
-# 2022Fall_projects
+# Data Structures & Algorithms Fall 2022 Final Project : Turn based simulation of an NBA game using Object-Oriented Programming
+### Team Members : 
 
-Each project from this semester is a public fork linked from this repository.  This is just one of the many assignments students worked on for the course, but this is the *only* one they are permitted to publish openly.
+Mathew Puthanpurackal (mputha2)
 
-## Final Project Expectations:
+Reethika Renganathan (rr22)
 
-You have considerable flexibility about specifics and you will publish your project openly (as a fork from here) to allow making it part of your portfolio if you choose.  You may work alone or in a team of two students. 
+Ruchi Rao (drrao2)
 
-Regardless of topic, it must involve notable amounts of original work of your own, though it can of course use existing libraries or be inspired by or adapted from some other published work(s). 
+## Background
 
-PLAGIARISM IS NOT ACCEPTABLE. From the first commit through all production of documentation and code, it must be crystal clear which, if any, parts of the project were based on or duplicated from any other source(s) all of which must be cited.  This should be so specific that any evaluator can tell which lines of code are original work and which aren't.  Same for all written narrative, documentation, images, significant algorithms, etc.
+The National Basketball Association (NBA) is a professional basketball league in North America. This project will
+enable the user to enjoy a game of basketball and concurrently discover strategies to win, thereby strengthening the
+understanding of the game. We have created a basic simulation of the game, where the user will complete against an AI. 
+It is a turn based game, so the user and the AI will select their moves one after the other, and the resulting gamestate
+would be displayed after both of them have made a move.
 
-## Project Types you may choose:
+![stephen-curry-ftr_1](https://user-images.githubusercontent.com/21601496/206863343-4f9ed1a0-ee32-443d-a4eb-f3ed79547663.jpeg)
 
-(Making original _variations_ of puzzles and games isn't as difficult as it may seem -- we'll discuss this in class. _Though admittedly, making *good* game variations -- that are well-balanced, strategically interesting, with good replay value_ can take expertise or luck and play-testing with revisions.  Such balanced elegance is desirable but might not be achievable here, given the short time you have.)
+## Important moves
 
-1. Devise your own new _original_ type of logic puzzle or an _original variation_ of existing puzzle type. Like with previous homework, your program should be able to randomly generate many puzzles of your type and to verify that all puzzles generated comply with the standard meta-rule that only one valid solution exists. It needs to output the unsolved puzzles in a way that a human can print or view them conveniently to try solving them and to somehow output (to file?) or display the solution for each puzzle when requested, so as not to spoil the challenge. An interactive UI to "play" the puzzles interactively is *not* required.
+These are the list of moves a user can choose from:
+- **Move player with the ball in any direction**
+- **Pass the ball to your teammate**
+- **Shoot towards the basket**
+- **Choose your player to move and intercept (defensive move)**
 
-2. OR develop an AI game player for an _original variation_ of some existing strategy game.  If you do this, it needs to be set up so it can either play computer-vs-computer and/or against human players with a reasonable text or graphical UI. 2B. If two teams want to independently develop AI players for the same type of game variant as each other (but using different algorithms, strategies, and/or data structures) so they can compete, that is okay.  A sub-variation is to enable this game type on our course game server, discuss with the instructor if this is of interest.
+## NOTE
 
-3. OR Computationally 'Solve' a game.  _Background: Some strategic games, especially those of perfect information are known to be "solved". See https://en.wikipedia.org/wiki/Solved_game, which we discussed in class._  Sometimes these proofs are done through mathematical analysis, other times through exhaustive computational verification. If you choose this option, you can either write your own code or modify some existing code that plays a game, to exhaustively analyze a game to attempt to prove if it is "solved" in this way for certain configurations. Changes to rules or conditions of a known solved game can alter this outcome and require reanalysis.
+Please note some additional features that are significant for the game:
+- **Player Attributes**  
+All players have a defined attacking and defensive attribute. This means that some players are good at shooting 
+the ball (attacking) but lacks defensive capabilities, and vice versa. The way we have assigned the attributes
+is intuitive and easy to understand. Each player has a number attached to it when displayed (from 1 to 5).
+Player with the number 1 has the highest attacking capability and lowest defensive capability. As the number increases,
+the defensive capability increases and attacking capability decreases.
 
 
-## Deliverables and other Requirements:
+- **Player Movements**  
+During each turn, the user can choose any player to perform the set of moves. The rest of the players in the team will
+follow a default movement to make the game more realistic. By default, the rest of the players move one step
+towards the ball
 
-* Have some fun!
-* In your own fork, please replace this README.md file's contents with a good introduction to your own project. 
-* Targeted Algorithm Analysis:  Regardless of which option you choose, you need to _describe the performance characteristics of some critical parts of your program and explain why you chose the data structures and core algorithm(s) you did_. So for example, if you chose Type #1, what's the Big-O, Big-Theta, or Big-Omega run-time complexity of your puzzle solver? Or the puzzle generator? If you're doing Type #2 and using minimax or similar, what's the complexity of your heuristic evaluation function?  
-* Performance Measurement: Supplement the analysis above with run-time measurements of multiple iterations of the game or puzzles as discussed in class.
-* If your team has more than one student, see that everyone makes substantial git commits. In addition, your README documentation should include a summary of how you shared the work.
-* Live in-class presentation & demonstration of your work.
+
+- **Pass interception**  
+If the user decides to pass the ball to its teammate, and simultaneously the opponent decides to move and come 
+between the path of the ball being passed, the ball gets intercepted by the opponent.
+
+
+- **Points awarded**  
+Any successful shot outside the three pointer line results in 3 points. All other successful shots are awarded 2 points.
+
+## Shooting Function
+
+The success of a shoot is defined by three parameters:
+- **Distance of the shooting player from the basket**  
+- **Shooting player's attacking attribute score**  
+- **Number of opponent players close to the shooting player**  
+
+All parameters are assigned a particular probability score and the final shoot success depends on the score which is
+calculated by combining all these probabilities. 
+
+## Artificial Intelligence
+The opponent for any user is an AI. For this project, although the AI can make some smart moves, it does not learn from
+its mistakes. The purpose of AI here is to make the game single-player rather than multiplayer, thereby increasing
+the pace of the game (as AI can choose its move instantly).
+
+
+## Time Complexity Analysis
+For different functions in our program, the time complexity is slightly varying. 
+The function that displays the ground to the players takes O(n^2) time.
+The pass_ball_to_teammate, calculate_opp_dist, extract_three_ptr, three_ptr_region_valid, and move_remaining_players functions take O(n) time where 'n' in each case is different.
+All the other functions take O(1) or constant amount of time. 
+
+
+## User Guide
+
+Clone the GitHub repo to your local IDE and run the file named 'basketball.py'. All the gamestates are displayed in the
+terminal, and you can input your moves in the terminal itself. You might have to increase the size of your terminal 
+to fit the gamestate being displayed. For now, we have introduced two teams - Golden State Warriors and Boston Celtics.
+The user is always Golden State Warriors and the AI is Boston Celtics. Enjoy!
+
+
